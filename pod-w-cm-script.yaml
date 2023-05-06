@@ -24,6 +24,8 @@ kind: Pod
 metadata:
   name: pod
   namespace: test
+  labels:
+    app.kubernetes.io/name: TestApp
 spec:
   containers:
     - name: primary
