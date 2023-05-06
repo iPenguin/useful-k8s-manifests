@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opt-bin
+  namespace: test
+data:
+  startup: |-
+    #!/bin/sh
+    #
+    while true
+    do
+      sleep 10
+      echo "waiting"
+    done
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod
+  namespace: test
+spec:
+  containers:
+    - name: primary
+      image: library/busybox:latest
+      command: ["sh"]
+      args: ["/opt/bin/startup"]
+      volumeMounts:
+        - name: opt-bin
+          mountPath: "/opt/bin"
+          readOnly: true
+  volumes:
+    - name: opt-bin
+      configMap:
+        name: opt-bin
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
