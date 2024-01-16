@@ -14,6 +14,18 @@ data:
     done
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data01
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: pod
@@ -29,9 +41,14 @@ spec:
         - name: opt-bin
           mountPath: "/opt/bin"
           readOnly: true
+        - name: data
+          mountPath: "/srv"
   volumes:
     - name: opt-bin
       configMap:
         name: opt-bin
+    - name: data
+      persistentVolumeClaim:
+        claimName: data01
   dnsPolicy: ClusterFirst
   restartPolicy: Always
