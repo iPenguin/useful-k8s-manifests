@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: useful-deployment
+  labels:
+    app: useful
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: useful
+  template:
+    metadata:
+      labels:
+        app: useful
+    spec:
+      containers:
+      - name: nginx
+        image: docker.io/library/nginx:latest
+        ports:
+        - containerPort: 80
