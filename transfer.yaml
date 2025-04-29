@@ -6,7 +6,7 @@ spec:
   containers:
   - name: copy-container
     image: busybox
-    command: ["/bin/sh", "-c", "cp -r /source/* /target/ && sleep 3600"]
+    command: ["/bin/sh", "-c", "cp -v -r /source/* /target/ && while true; do echo 'holding'; sleep 2; done"]
     volumeMounts:
     - name: source-volume
       mountPath: /source
